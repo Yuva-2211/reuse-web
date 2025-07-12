@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - ReWear</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7fafc;
+    }
+    .header {
+      background-color: #2f855a;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .nav-buttons button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #48bb78;
+      color: white;
+      cursor: pointer;
+    }
+    .search-bar {
+      margin: 20px;
+      text-align: center;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .user-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+    }
+    .user-card {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .user-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-details {
+      display: flex;
+      flex-direction: column;
+    }
+    .user-actions button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .edit-btn {
+      background-color: #3182ce;
+      color: white;
+    }
+    .delete-btn {
+      background-color: #e53e3e;
+      color: white;
+    }
+    @media (max-width: 600px) {
+      .user-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🛠️ Admin Panel</div>
+    <div class="nav-buttons">
+      <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button onclick="window.location.href='rewear_landing.html'">Back to ReWear</button>
+      <button>Manage Users</button>
+      <button>Manage Orders</button>
+      <button>Manage Listings</button>
+    </div>
+  </header>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by name or email..." />
+  </div>
+
+  <div class="user-list" id="userList">
+    <!-- User cards will be rendered here -->
+  </div>
+
+  <script>
+    const users = [
+      { name: "Pavithra H", email: "pavi@example.com", image: "https://via.placeholder.com/50" },
+      { name: "Arjun R", email: "arjun@example.com", image: "https://via.placeholder.com/50" },
+      { name: "Meera K", email: "meera@example.com", image: "https://via.placeholder.com/50" },
+      { name: "Karan S", email: "karan@example.com", image: "https://via.placeholder.com/50" }
+    ];
+
+    let currentUsers = [...users];
+
+    const userList = document.getElementById("userList");
+
+    function renderUsers(searchTerm = "") {
+      userList.innerHTML = "";
+      const filtered = currentUsers.filter(user =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      filtered.forEach((user, index) => {
+        const card = document.createElement("div");
+        card.className = "user-card";
+        card.innerHTML = `
+          <div class="user-info">
+            <img src="${user.image}" alt="${user.name}" />
+            <div class="user-details">
+              <strong>${user.name}</strong>
+              <small>${user.email}</small>
+            </div>
+          </div>
+          <div class="user-actions">
+            <button class="edit-btn" onclick="editUser(${index})">Edit</button>
+            <button class="delete-btn" onclick="deleteUser(${index})">Delete</button>
+          </div>
+        `;
+        userList.appendChild(card);
+      });
+    }
+
+    function editUser(index) {
+      const newName = prompt("Enter new name:", currentUsers[index].name);
+      const newEmail = prompt("Enter new email:", currentUsers[index].email);
+      if (newName && newEmail) {
+        currentUsers[index].name = newName;
+        currentUsers[index].email = newEmail;
+        renderUsers(document.getElementById("searchInput").value);
+      }
+    }
+
+    function deleteUser(index) {
+      if (confirm(`Are you sure you want to delete ${currentUsers[index].name}?`)) {
+        currentUsers.splice(index, 1);
+        renderUsers(document.getElementById("searchInput").value);
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      renderUsers(e.target.value);
+    });
+
+    renderUsers();
+  </script>
+</body>
+</html>

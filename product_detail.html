@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Details - ReWear</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(120deg, #f0fff4, #c6f6d5);
+    }
+
+    header {
+      background: #2f855a;
+      color: white;
+      padding: 15px 30px;
+      font-size: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 40px;
+      gap: 40px;
+      justify-content: center;
+    }
+
+    .image-section,
+    .desc-section {
+      flex: 1 1 350px;
+      max-width: 500px;
+    }
+
+    .image-section img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .desc-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .desc-section h3 {
+      margin-top: 0;
+      color: #2f855a;
+    }
+
+    .desc-section p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .status {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .status.available {
+      color: green;
+    }
+
+    .status.requested {
+      color: orange;
+    }
+
+    .status.redeemed {
+      color: gray;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .status-button {
+      flex: 1;
+      padding: 12px 20px;
+      background-color: #2f855a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    .status-button:hover {
+      background-color: #276749;
+    }
+
+    .status-button:disabled {
+      background-color: #a0aec0;
+      cursor: not-allowed;
+    }
+
+    .related {
+      margin: 30px auto;
+      max-width: 1100px;
+      text-align: center;
+    }
+
+    .related h4 {
+      margin-bottom: 25px;
+      color: #2d3748;
+    }
+
+    .related-items {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .related-item {
+      width: 160px;
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .related-item:hover {
+      transform: translateY(-6px);
+    }
+
+    .related-item img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>🧥 ReWear Product Details</div>
+  <a href="rewear_landing.html">← Back to Home</a>
+</header>
+
+<div class="container">
+  <div class="image-section">
+    <img id="productImage" src="" alt="Product Image" />
+  </div>
+
+  <div class="desc-section">
+    <h3 id="productTitle">Product Title</h3>
+    <p><strong>Category:</strong> <span id="productCategory"></span></p>
+    <p><strong>Size:</strong> <span id="productSize"></span></p>
+    <p><strong>Condition:</strong> <span id="productCondition"></span></p>
+    <p><strong>Description:</strong><br><span id="productDescription"></span></p>
+    <p><strong>Redeem Coins:</strong> <span id="productCoins">10</span> 🪙</p>
+
+    <p class="status" id="productStatus"></p>
+
+    <div class="action-buttons">
+      <button class="status-button" id="swapBtn" onclick="confirmAction('Swap Request')">Swap Request</button>
+      <button class="status-button" id="redeemBtn" onclick="confirmAction('Redeem via Points')">Redeem via Points</button>
+    </div>
+  </div>
+</div>
+
+<div class="related">
+  <h4>🔁 You might also like</h4>
+  <div class="related-items">
+    <div class="related-item">
+      <img src="https://via.placeholder.com/150x200?text=Dress" />
+      <p>Dress</p>
+    </div>
+    <div class="related-item">
+      <img src="https://via.placeholder.com/150x200?text=Bag" />
+      <p>Bag</p>
+    </div>
+    <div class="related-item">
+      <img src="https://via.placeholder.com/150x200?text=Top" />
+      <p>Top</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function confirmAction(actionType) {
+    const confirmBox = confirm(`Do you want to proceed with ${actionType}?`);
+    if (confirmBox) {
+      if (actionType === "Redeem via Points") {
+        let user = localStorage.getItem("loggedInUser");
+        let userPoints = parseInt(localStorage.getItem(`points_${user}`)) || 100;
+        let redeemCost = parseInt(document.getElementById("productCoins").textContent);
+
+        if (userPoints >= redeemCost) {
+          userPoints -= redeemCost;
+          localStorage.setItem(`points_${user}`, userPoints);
+          alert(`Redeemed successfully! 🪙 Remaining coins: ${userPoints}`);
+        } else {
+          alert("Not enough coins to redeem this item.");
+        }
+      } else {
+        alert(`${actionType} successful!`);
+      }
+    }
+  }
+
+  // Load product from localStorage (assume selectedItem is set previously)
+  const selectedItem = JSON.parse(localStorage.getItem("selectedItem"));
+  if (selectedItem) {
+    document.getElementById("productImage").src = selectedItem.image || "https://via.placeholder.com/300x400";
+    document.getElementById("productTitle").textContent = selectedItem.title;
+    document.getElementById("productCategory").textContent = selectedItem.category;
+    document.getElementById("productSize").textContent = selectedItem.size;
+    document.getElementById("productCondition").textContent = selectedItem.condition;
+    document.getElementById("productDescription").textContent = selectedItem.description;
+
+    const statusElem = document.getElementById("productStatus");
+    const swapBtn = document.getElementById("swapBtn");
+    const redeemBtn = document.getElementById("redeemBtn");
+
+    const status = selectedItem.status || "available";
+    statusElem.textContent = `Status: ${status.charAt(0).toUpperCase() + status.slice(1)}`;
+    statusElem.classList.add(status);
+
+    if (status === "requested") {
+      swapBtn.disabled = true;
+    } else if (status === "redeemed") {
+      swapBtn.disabled = true;
+      redeemBtn.disabled = true;
+    }
+  } else {
+    alert("No product selected.");
+  }
+</script>
+
+</body>
+</html>

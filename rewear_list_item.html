@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>List Your Item - ReWear</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f7f4;
+      padding: 30px;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    h2 {
+      color: #2f855a;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e0;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2f855a;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #276749;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>List Your Clothing Item</h2>
+    <form id="listItemForm">
+      <div class="form-group">
+        <label for="itemTitle">Title</label>
+        <input type="text" id="itemTitle" required />
+      </div>
+      <div class="form-group">
+        <label for="itemDescription">Description</label>
+        <textarea id="itemDescription" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="itemCategory">Category</label>
+        <select id="itemCategory" required>
+          <option value="">Select</option>
+          <option value="Men">Men</option>
+          <option value="Women">Women</option>
+          <option value="Kids">Kids</option>
+          <option value="Accessories">Accessories</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="itemSize">Size</label>
+        <input type="text" id="itemSize" placeholder="e.g., M, L, 32, Free Size" required />
+      </div>
+      <div class="form-group">
+        <label for="itemCondition">Condition</label>
+        <select id="itemCondition" required>
+          <option value="">Select</option>
+          <option value="New">New</option>
+          <option value="Like New">Like New</option>
+          <option value="Used">Used</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="itemTags">Tags (comma-separated)</label>
+        <input type="text" id="itemTags" />
+      </div>
+      <div class="form-group">
+        <label for="itemImage">Upload Image</label>
+        <input type="file" id="itemImage" accept="image/*" required />
+      </div>
+      <button type="submit">Submit Item</button>
+    </form>
+  </div>
+
+  <script>
+  document.getElementById("listItemForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const username = localStorage.getItem("loggedInUser");
+    if (!username) {
+      alert("User not logged in!");
+      return;
+    }
+
+    const newItem = {
+      title: document.getElementById("itemTitle").value,
+      description: document.getElementById("itemDescription").value,
+      category: document.getElementById("itemCategory").value,
+      size: document.getElementById("itemSize").value,
+      condition: document.getElementById("itemCondition").value,
+      tags: document.getElementById("itemTags").value.split(',').map(tag => tag.trim()),
+      image: document.getElementById("itemImage").files[0]?.name || "No image",
+      uploader: username
+    };
+
+    // 1️⃣ Save to user's personal list
+    const userKey = `items_${username}`;
+    const userItems = JSON.parse(localStorage.getItem(userKey)) || [];
+    userItems.push(newItem);
+    localStorage.setItem(userKey, JSON.stringify(userItems));
+
+    // 2️⃣ Save to global public list
+    const globalItems = JSON.parse(localStorage.getItem("allItems")) || [];
+    globalItems.push(newItem);
+    localStorage.setItem("allItems", JSON.stringify(globalItems));
+
+    alert("Item listed successfully!");
+    window.location.href = "rewear_landing.html";
+  });
+</script>
+
+
+</body>
+</html>

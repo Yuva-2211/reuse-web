@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReWear - Community Clothing Exchange</title>
+  <link rel="stylesheet" href="rewear_landing.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f7fafc;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #2f855a;
+      padding: 10px 20px;
+      color: white;
+      flex-wrap: wrap;
+    }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(to right, #c6f6d5, #f0fff4);
+    }
+    .hero-buttons button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      background-color: #2f855a;
+      color: white;
+      cursor: pointer;
+    }
+    .section-title {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .categories-grid, .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      padding: 20px;
+    }
+    .category-btn {
+      padding: 10px 15px;
+      background-color: #e6fffa;
+      border: 1px solid #2f855a;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .product-card {
+      background-color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 250px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-card img {
+      max-width: 100%;
+      border-radius: 5px;
+    }
+    .actions {
+      margin-top: 10px;
+    }
+    .swap-btn, .points-btn {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .swap-btn {
+      background-color: #2f855a;
+      color: white;
+    }
+    .points-btn {
+      background-color: #d69e2e;
+      color: white;
+    }
+    .search-bar {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .coins-display {
+      text-align: right;
+      margin: 10px 20px;
+      font-weight: bold;
+      color: #2f855a;
+    }
+    .dashboard-link {
+      display: block;
+      text-align: center;
+      margin: 20px;
+    }
+    .dashboard-link a {
+      background-color: #2f855a;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      .product-card {
+        width: 90%;
+      }
+      .hero-buttons button {
+        width: 100%;
+      }
+      .nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <p id="welcome-user"></p>
+    <div class="logo">👕 ReWear</div>
+    <nav class="nav-links">
+      <a href="rewear_landing.html">Home</a>
+      <a href="#">Browse</a>
+      <a href="login.html">Login</a>
+      <a href="create_account.html">Sign Up</a>
+      <a href="rewear_admin.html">Admin</a>
+
+    </nav>
+  </header>
+
+  <div class="coins-display" id="coinDisplay">🪙 Coins: 0</div>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Swap Smart, Dress Sustainably</h1>
+      <p>Join the movement to reduce textile waste. Exchange your clothes today.</p>
+      <div class="hero-buttons">
+        <button onclick="window.location.href='create_account.html'">Start Swapping</button>
+        <button onclick="document.getElementById('product-grid').scrollIntoView({ behavior: 'smooth' })">Browse Items</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by name, size, or category..." />
+  </div>
+
+  <div class="dashboard-link">
+    <a href="dashboard.html">👤 Go to Dashboard</a>
+  </div>
+
+  <section class="carousel-section" id="featured-items">
+    <h2 class="section-title">Featured Clothing Items</h2>
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <img src="https://via.placeholder.com/250x300?text=Jacket" alt="Jacket" />
+          <p>Winter Jacket</p>
+        </div>
+        <div class="swiper-slide">
+          <img src="https://via.placeholder.com/250x300?text=Dress" alt="Dress" />
+          <p>Summer Dress</p>
+        </div>
+        <div class="swiper-slide">
+          <img src="https://via.placeholder.com/250x300?text=Shirt" alt="Shirt" />
+          <p>Casual Shirt</p>
+        </div>
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </section>
+
+  <section class="categories-section" id="categories">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="categories-grid">
+      <button class="category-btn active" data-category="All">All</button>
+      <button class="category-btn" data-category="Men">👕 Men</button>
+      <button class="category-btn" data-category="Women">👗 Women</button>
+      <button class="category-btn" data-category="Kids">🧒 Kids</button>
+      <button class="category-btn" data-category="Accessories">👜 Accessories</button>
+    </div>
+  </section>
+
+  <section class="product-section" id="product-grid">
+    <h2 class="section-title">Available Items</h2>
+    <div class="product-grid" id="productContainer"></div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script>
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 20,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      breakpoints: {
+        600: { slidesPerView: 2 },
+        900: { slidesPerView: 3 }
+      }
+    });
+
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      document.getElementById("welcome-user").textContent = `👋 Welcome, ${loggedInUser}!`;
+      const coins = localStorage.getItem(`coins_${loggedInUser}`) || 0;
+      document.getElementById("coinDisplay").textContent = `🪙 Coins: ${coins}`;
+    }
+
+    const allItems = JSON.parse(localStorage.getItem("allItems")) || [];
+    const productContainer = document.getElementById("productContainer");
+
+    function renderItems(category = "All", searchTerm = "") {
+      productContainer.innerHTML = "";
+      let filteredItems = allItems.filter(item => {
+        return (category === "All" || item.category === category) &&
+               (item.name.toLowerCase().includes(searchTerm) ||
+                item.category.toLowerCase().includes(searchTerm) ||
+                item.size.toLowerCase().includes(searchTerm));
+      });
+
+      if (filteredItems.length === 0) {
+        productContainer.innerHTML = "<p style='text-align:center; color:gray;'>No items found.</p>";
+        return;
+      }
+
+      filteredItems.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" />
+          <h3>${item.name}</h3>
+          <p>${item.category}</p>
+          <p>Size: ${item.size}</p>
+          <p style="font-size: 12px; color: #888;">Uploaded by ${item.uploader}</p>
+        `;
+        productContainer.appendChild(card);
+      });
+    }
+
+    const categoryButtons = document.querySelectorAll(".category-btn");
+    categoryButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        categoryButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const category = btn.getAttribute("data-category");
+        renderItems(category, document.getElementById("searchInput").value.toLowerCase());
+      });
+    });
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const category = document.querySelector(".category-btn.active")?.getAttribute("data-category") || "All";
+      renderItems(category, e.target.value.toLowerCase());
+    });
+
+    renderItems();
+  </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReWear Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #b7e4c7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #40916c;
+      padding: 30px;
+      border-radius: 20px;
+      border: #2f7254 solid 2px;
+      box-shadow: 0 10px 25px rgba(13, 1, 1, 0.1);
+      text-align: center;
+    }
+    .profile-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #c6f6d5;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: white;
+      font-weight: bold;
+    }
+    h2 {
+      color: #f4fcf8;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: #01060fb5;
+    }
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-sizing: border-box;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #0e301e;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0c421f;
+    }
+    .link {
+      display: block;
+      margin-top: 15px;
+      color: #3182ce;
+      text-decoration: none;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #718096;
+    }
+    @media screen and (max-width: 480px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="profile-circle">👤</div>
+    <h2>Login to ReWear</h2>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <div class="actions">
+        <button type="submit">Login</button>
+        <button type="button" onclick="exitPage()">Exit</button>
+      </div>
+    </form>
+
+    <div class="toggle">
+      <a href="#" onclick="goToCreateAccount()">New user? Create Account</a>
+    </div>
+   
+    <div class="footer">ReWear © 2025</div>
+  </div>
+
+  <script>
+    function exitPage() {
+      alert("Exiting login page.");
+    }
+
+    function goToCreateAccount() {
+      window.location.href = "create_account.html";
+    }
+
+   
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    // Retrieve user from localStorage
+    const storedUser = JSON.parse(localStorage.getItem(username));
+
+    if (storedUser && storedUser.password === password) {
+      alert("Login successful!");
+      window.location.href = "rewear_landing.html"; // ✅ Redirect to landing
+    } else {
+      alert("Invalid username or password.");
+    }
+  });
+
+  function exitPage() {
+    window.location.href = "rewear_landing.html"; // Back to landing if exited
+  }
+
+  function goToCreateAccount() {
+    window.location.href = "create_account.html"; // Create account
+  }
+  localStorage.setItem("loggedInUser", username); // ✅ Save active session
+  if (storedUser && storedUser.password === password) {
+  alert("Login successful!");
+  localStorage.setItem("loggedInUser", username); // ✅ Store active user
+  window.location.href = "rewear_landing.html";
+}
+  else {
+    alert("Invalid username or password.");
+  }
+</script>
+
+  
+  
+</body>
+</html>
