@@ -17,3 +17,11 @@ Built using *FastAPI + SQLAlchemy* for the backend and *HTML + Tailwind + Jinja*
 User authentication is handled with *JWT/OAuth2, and item images are stored using **Cloudinary*.  
 *PostgreSQL* powers the database, and admin moderation is managed via *FastAPI-Admin*.  
 The platform is optimized for seamless deployment on *Render* with scalable cloud services.
+
+flask==2.3.2
+flask-sqlalchemy==3.0.3
+flask-login==0.6.2
+flask-wtf==1.1.1
+email-validator==2.0.0
+Pillow==9.5.0
+python-dotenv==1.0.0
